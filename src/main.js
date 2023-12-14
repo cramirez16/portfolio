@@ -14,7 +14,6 @@ function verticalMotionWithSpin3D(tagSelector) {
       const anchor = document.createElement("a");
       anchor.className = `text${i + 1}`;
       anchor.innerHTML = tagsArray[i].content;
-      console.log(tagsArray[i].href);
       anchor.href = tagsArray[i].href;
       anchor.rel = "noopener";
       anchor.style.visibility = "hidden";
@@ -71,19 +70,57 @@ function verticalScroll(tagSelector) {
     // apply transition to smooth the scroll movement.
     sideMenu.style.transition = "transform 1.2s ease-in-out";
     sideMenu.style.transform =
-      "rotateY(-45deg) translateY(" + translateYValue + "px)";
+      "rotateY(-15deg) translateY(" + translateYValue + "px)";
   }
 
   // Listen for the scroll event
   window.addEventListener("wheel", updateTranslateY);
 
-  // Listen for the transition end event to reset transition property
-  sideMenu.addEventListener("transitionend", resetTransition);
+  // // Listen for the transition end event to reset transition property
+  // sideMenu.addEventListener("transitionend", resetTransition);
 }
 
+function mobilePannel() {
+  const sideMenu = document.querySelectorAll(".motion-side-menu > a");
+  sideMenu.forEach(
+    (tag) =>
+      (tag.style.visibility =
+        tag.style.visibility === "visible" ? "hidden" : "visible")
+  );
+  const userInterface = document.querySelector(".ui");
+  userInterface.style.visibility =
+    userInterface.style.visibility === "visible" ? "hidden" : "visible";
+  const mediaQuery = window.matchMedia("(max-width: 690px)");
+  mediaQuery.addEventListener("change", handleMediaQuery);
+}
+
+function mobilePannelListener() {
+  const button = document.querySelector("#hamburger");
+  button.addEventListener("click", mobilePannel);
+}
+
+function handleMediaQuery(event) {
+  const tags = document.querySelectorAll(".motion-side-menu > a");
+  const userInterface = document.querySelector(".ui");
+  if (!event.matches) {
+    // The media query doesn't match (viewport width is greater than 690px)
+
+    tags.forEach((tag) => (tag.style.visibility = "visible"));
+    document.querySelector(".ui").style.visibility = "visible";
+    removeEventListener("change", handleMediaQuery);
+  } else {
+    if (
+      userInterface.style.visibility === "visible" &&
+      tags[0].style.visibility === "visible"
+    ) {
+      tags.forEach((tag) => (tag.style.visibility = "hidden"));
+    }
+  }
+}
 function main() {
   verticalMotionWithSpin3D(".motion-side-menu");
   verticalScroll(".motion-side-menu");
+  mobilePannelListener();
 }
 
 main();
