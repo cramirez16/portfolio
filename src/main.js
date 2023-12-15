@@ -81,25 +81,22 @@ function verticalScroll(tagSelector) {
 }
 
 function mobilePannel() {
-  const stage = document.querySelector(".stage");
   const sideMenu = document.querySelector(".motion-side-menu");
   sideMenu.style.transform = "rotateY(-15deg) translateY(0px)";
   const userInterface = document.querySelector(".ui");
 
   if (sideMenu.style.display === "block") {
-    console.log(1);
     sideMenu.style.display = "none";
     sideMenu.style.zIndex = "-100";
     userInterface.style.display = "flex";
     userInterface.style.zIndex = "200";
   } else {
-    console.log(2);
     sideMenu.style.display = "none";
     sideMenu.style.zIndex = "-100";
     userInterface.style.zIndex = "2";
     location.reload();
   }
-  const mediaQuery = window.matchMedia("(max-width: 690px)");
+  const mediaQuery = window.matchMedia("(max-width: 900px)");
   mediaQuery.addEventListener("change", handleMediaQuery);
 }
 
@@ -112,8 +109,7 @@ function handleMediaQuery(event) {
   const stage = document.querySelector(".stage");
   const tag = document.querySelector(".motion-side-menu");
   const userInterface = document.querySelector(".ui");
-  if (!event.matches) {
-    console.log(3);
+  if (!event.matches && document.documentElement.clientHeight > 550) {
     // The media query doesn't match (viewport width is greater than 690px)
     tag.style.display = "block";
     userInterface.style.display === "flex";
@@ -123,7 +119,6 @@ function handleMediaQuery(event) {
       userInterface.style.display === "flex" &&
       tag.style.display === "block"
     ) {
-      console.log(4);
       tag.style.display = "none";
       stage.style.zIndex = "-100";
     }
