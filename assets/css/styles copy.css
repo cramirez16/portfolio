@@ -40,10 +40,9 @@ body {
 }
 
 .perspective-container {
-  /* parent container for perspective effect */
   display: flex;
   justify-content: right;
-  position: absolute;
+  position: relative;
   perspective: calc(100vw / 1920 * 800);
   -webkit-perspective: calc(100vw / 1920 * 800);
   transform-style: preserve-3d;
@@ -53,17 +52,44 @@ body {
 }
 
 .motion-side-menu {
-  /* plane in perspective, angle -45deg */
   position: relative;
   text-align: right;
   height: fit-content;
-  transform: rotateY(-45deg);
+  transform: rotateY(-15deg);
   transform-origin: right center;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
+  padding-bottom: 20%;
 }
 
-/* verticalMotionWithSpin3D --> animation triggered in js --> begin */
+.motion-side-menu > a {
+  display: block;
+  position: relative;
+  font-family: LukiestGuy;
+  font-size: 5.4vw;
+  color: var(--menu-font-color);
+  text-align: right;
+  letter-spacing: 0.02em;
+  line-height: 1em;
+  font-style: normal;
+  font-stretch: normal;
+  font-weight: 900;
+  transition: all 1.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transform-origin: right center;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  text-decoration: none;
+  cursor: pointer;
+  visibility: visible;
+}
+
+.motion-side-menu > a:hover {
+  transform: translateY(0px) rotateY(15deg) scale(1);
+  -webkit-text-stroke-width: 0.1rem;
+  -webkit-text-stroke-color: var(--menu-font-color);
+  color: transparent;
+}
+
 @keyframes moveDown {
   0% {
     transform: rotateY(-120deg) translateY(-150vh);
@@ -85,7 +111,6 @@ body {
     opacity: 0;
   }
 }
-/* verticalMotionWithSpin3D --> animation triggered in js --> end */
 
 /* beggin: Logo CARLOS RAM */
 
@@ -95,6 +120,7 @@ body {
   bottom: calc(7.5vh + 67px);
   left: 60px;
   z-index: 1;
+  /* font-family: Druk; */
   font-family: LukiestGuy;
   font-weight: 500;
   font-style: normal;
@@ -123,10 +149,10 @@ body {
 .slideUp span {
   display: block;
   transform: translateY(120%);
-  animation: slideUpAnimation 1s forwards;
+  animation: h 1s forwards;
 }
 
-@keyframes slideUpAnimation {
+@keyframes h {
   0% {
     transform: translateY(120%);
   }
@@ -166,36 +192,8 @@ body {
 
 /* end: Logo CARLOS RAM */
 
-.motion-side-menu > a {
-  display: block;
-  position: relative;
-  font-family: LukiestGuy;
-  font-size: 5.4vw;
-  color: var(--menu-font-color);
-  text-align: right;
-  letter-spacing: 0.02em;
-  line-height: 1em;
-  font-style: normal;
-  font-stretch: normal;
-  font-weight: 900;
-  transition: all 1.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-  transform-origin: right center;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-  text-decoration: none;
-  cursor: pointer;
-  visibility: visible;
-}
+/* header setup */
 
-.motion-side-menu > a:hover {
-  /* spin effect on every list item, on hover */
-  transform: translateY(0px) rotateY(15deg) scale(1);
-  -webkit-text-stroke-width: 0.1rem;
-  -webkit-text-stroke-color: var(--menu-font-color);
-  color: transparent;
-}
-
-/* header setup - bottom nav */
 .ui {
   display: flex;
   flex-direction: row;
@@ -208,7 +206,7 @@ body {
   width: 100vw;
   padding: 2.5vh 60px 5vh;
   font-family: Roboto;
-  /* color: var(--banner-color); */
+  color: var(--banner-color);
 }
 
 .ui ul {
@@ -217,21 +215,27 @@ body {
   list-style: none;
 }
 
-.ui a {
-  text-decoration: none;
+.ui li {
+  margin-bottom: 5px;
 }
 
 .ui li span {
   margin-right: 15px;
+  font-size: 10px;
 }
 
-.ui li,
-.ui span,
-.ui button,
-.ui a,
-.about {
+.ui a {
+  text-decoration: none;
+}
+
+.ui a {
   color: var(--banner-color);
-  font-size: 1em;
+}
+
+.right a,
+.ui button.link {
+  font-weight: bold;
+  color: var(--banner-color);
 }
 
 .ui .contact,
@@ -270,7 +274,7 @@ body {
 }
 
 .ui a,
-.ui .about {
+.ui button.link {
   display: inline-block;
   position: relative;
   transform: rotateY(0deg) translateZ(0);
@@ -278,7 +282,7 @@ body {
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.about {
+.ui button.link {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -287,21 +291,22 @@ body {
 .ui li {
   perspective: 250px;
   perspective-origin: 0;
-  margin-bottom: 5px;
 }
 
 .ui li:hover a,
-.ui li:hover .about {
+.ui li:hover button.link {
   transform: rotateY(15deg) translateZ(0);
 }
 
-.email {
-  /* email perspective bigger*/
+.ui .contact li {
   perspective: 400px;
+}
+
+.ui .contact .email {
   display: inline-block;
 }
 
-.contact ul {
+.ui .contact ul {
   margin-right: 3vw;
 }
 
@@ -313,7 +318,6 @@ body {
   width: fit-content;
 }
 
-/* <ui> Slide up animation --> begin */
 .ui .contact ul,
 .ui .links,
 .ui .social {
@@ -361,8 +365,6 @@ body {
   animation-delay: 2s;
 }
 
-/* <ui> Slide up animation --> end */
-
 #hamburger {
   visibility: hidden;
 }
@@ -373,20 +375,20 @@ body {
   stroke-width: 5;
 }
 
-@media (max-width: 900px) and (min-height: 550px) {
+@media (max-width: 900px) {
   .stage {
     display: block;
     position: relative;
     z-index: 100;
   }
   .motion-side-menu {
-    transform: rotateY(-45deg);
+    transform: rotateY(-15deg);
   }
   .motion-side-menu > a {
     font-size: min(10vw, 10vh);
   }
   .motion-side-menu > a:hover {
-    transform: translateY(0px) rotateY(15deg) scale(1);
+    transform: translateY(0px) rotateY(5deg) scale(1);
   }
 
   nav.pannel {
@@ -395,18 +397,20 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100vw;
   }
 
   .logo {
-    position: relative;
-    top: 0;
-    left: 0;
+    display: block;
+    position: absolute;
+    bottom: calc(7.5vh + 67px);
+    left: 60px;
     z-index: 1;
     font-family: LukiestGuy;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
-    font-size: 5vw;
+    font-size: 80px;
     text-transform: uppercase;
     text-decoration: none;
     line-height: 0.85em;
@@ -463,30 +467,38 @@ body {
   }
 
   .ui .email a {
-    font-size: 1.05em;
+    font-size: min(6.5vw, 6.5vh);
   }
 }
 
+.hidden {
+  visibility: "hidden";
+}
+
 /* @media (max-height: 431px), (max-height: 415px), (max-height: 376px) { */
-@media (max-height: 551px) and (min-width: 501px) {
+@media (max-height: 551px) {
   .stage {
     display: block;
     position: relative;
     z-index: 100;
   }
-
-  .perspective-container {
-    width: 82vw;
+  .motion-side-menu {
+    transform: rotateY(-15deg);
+  }
+  .motion-side-menu > a {
+    font-size: min(10vw, 10vh);
+  }
+  .motion-side-menu > a:hover {
+    transform: translateY(0px) rotateY(5deg) scale(1);
   }
 
   nav.pannel {
     gap: 10px;
     display: flex;
     padding: min(4vh, 4vw);
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
     align-items: center;
-    width: 100vw;
     width: 100vw;
   }
 
@@ -494,7 +506,19 @@ body {
     position: relative;
     top: 0;
     left: 0;
+    z-index: 1;
+    font-family: LukiestGuy;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
     font-size: 5vw;
+    text-transform: uppercase;
+    text-decoration: none;
+    line-height: 0.85em;
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   #hamburger {
@@ -523,51 +547,30 @@ body {
     height: 70vh;
   }
 
+  .links li {
+    display: block;
+  }
+
   .ui .left {
     flex-direction: column-reverse;
     width: 100%;
   }
 
-  .ui > .right {
+  .ui .right {
     flex-direction: row;
     justify-content: left;
     align-items: flex-start;
-    width: 100%;
     max-width: 100%;
     border-radius: 0;
-    box-shadow: none;
     gap: 20px;
   }
 
-  .links li {
-    display: block;
-  }
-
-  .ui .social {
-    width: 100%;
-  }
-
   .social > ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 8rem;
   }
-
-  .social > ul li:nth-child(1) {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-  }
-
-  .social > ul li:nth-child(2) {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-  }
-
-  .social > ul li:nth-child(3) {
-    grid-column: 2 / 3;
-    grid-row: 1 / 3;
-  }
-
   .ui .left .contact {
     display: flex;
     flex-direction: row-reverse;
@@ -587,7 +590,7 @@ body {
   }
 
   .email > a {
-    font-size: 1.05em;
+    font-size: min(6.5vw, 6.5vh);
   }
 }
 
@@ -598,13 +601,13 @@ body {
     z-index: 100;
   }
   .motion-side-menu {
-    transform: rotateY(-45deg);
+    transform: rotateY(-15deg);
   }
   .motion-side-menu > a {
     font-size: min(10vw, 10vh);
   }
   .motion-side-menu > a:hover {
-    transform: translateY(0px) rotateY(15deg) scale(1);
+    transform: translateY(0px) rotateY(5deg) scale(1);
   }
 
   nav.pannel {
@@ -619,9 +622,20 @@ body {
   .logo {
     position: relative;
     top: 0;
-    left: 0px;
+    left: 0;
     z-index: 1;
+    font-family: LukiestGuy;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
     font-size: 5vw;
+    text-transform: uppercase;
+    text-decoration: none;
+    line-height: 0.85em;
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   #hamburger {
@@ -650,37 +664,28 @@ body {
     height: 70vh;
   }
 
+  .links li {
+    display: block;
+  }
+
   .ui .left {
     flex-direction: column-reverse;
     width: 100%;
   }
 
-  .ui > .right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: fit-content;
+  .ui .right {
+    flex-direction: row;
+    justify-content: left;
+    align-items: flex-start;
     max-width: 100%;
     border-radius: 0;
-    gap: 0;
-  }
-
-  .ui .links {
-    width: 100%;
-  }
-
-  .links ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+    gap: 20px;
   }
 
   .social > ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     max-height: 5rem;
   }
   .ui .left .contact {
@@ -702,6 +707,6 @@ body {
   }
 
   .email > a {
-    font-size: 1.05em;
+    font-size: min(6.5vw, 6.5vh);
   }
 }

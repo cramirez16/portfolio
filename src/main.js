@@ -57,24 +57,31 @@ function verticalScroll(tagSelector) {
 
   // Function to update translateY based on scroll
   function updateTranslateY(event) {
+    event.preventDefault();
     const content = sideMenu.style.transform;
+    // const currentScroll = window.scrollY;
+
     const ini = content.indexOf("translateY(") + 11;
     const end = content.indexOf("px)");
     const value = Number(content.slice(ini, end));
 
     // scroll inc of 200 units (px)
     let translateYValue = value + 200 * (event.deltaY < 0 ? -1 : 1);
-    if (translateYValue > 0) translateYValue = 0;
-    if (translateYValue < -200) translateYValue = -200;
+    if (translateYValue > 0) {
+      translateYValue = 0;
+    } else if (translateYValue < -200) {
+      translateYValue = -200;
+    }
+    // window.scrollTo(0, currentScroll);
 
     // apply transition to smooth the scroll movement.
     sideMenu.style.transition = "transform 1.2s ease-in-out";
     sideMenu.style.transform =
-      "rotateY(-15deg) translateY(" + translateYValue + "px)";
+      "rotateY(-45deg) translateY(" + translateYValue + "px)";
   }
 
-  // Listen for the scroll event
-  window.addEventListener("wheel", updateTranslateY);
+  // Listen for the scroll event --> passive false to allow use event.preventDefault();
+  window.addEventListener("wheel", updateTranslateY, { passive: false });
 
   // // Listen for the transition end event to reset transition property
   // sideMenu.addEventListener("transitionend", resetTransition);
@@ -82,7 +89,7 @@ function verticalScroll(tagSelector) {
 
 function mobilePannel() {
   const sideMenu = document.querySelector(".motion-side-menu");
-  sideMenu.style.transform = "rotateY(-15deg) translateY(0px)";
+  sideMenu.style.transform = "rotateY(-45deg) translateY(0px)";
   const userInterface = document.querySelector(".ui");
 
   if (sideMenu.style.display === "block") {
@@ -102,6 +109,7 @@ function mobilePannel() {
 
 function mobilePannelListener() {
   const button = document.querySelector("#hamburger");
+  console.log("click");
   button.addEventListener("click", mobilePannel);
 }
 
