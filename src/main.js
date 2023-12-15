@@ -53,7 +53,7 @@ function verticalMotionWithSpin3D(tagSelector) {
 
 function verticalScroll(tagSelector) {
   // Get the element
-  let sideMenu = document.querySelector(tagSelector);
+  const sideMenu = document.querySelector(tagSelector);
 
   // Function to update translateY based on scroll
   function updateTranslateY(event) {
@@ -62,7 +62,7 @@ function verticalScroll(tagSelector) {
     const end = content.indexOf("px)");
     const value = Number(content.slice(ini, end));
 
-    // scroll inc of 600 units (px)
+    // scroll inc of 200 units (px)
     let translateYValue = value + 200 * (event.deltaY < 0 ? -1 : 1);
     if (translateYValue > 0) translateYValue = 0;
     if (translateYValue < -200) translateYValue = -200;
@@ -81,15 +81,24 @@ function verticalScroll(tagSelector) {
 }
 
 function mobilePannel() {
-  const sideMenu = document.querySelectorAll(".motion-side-menu > a");
-  sideMenu.forEach(
-    (tag) =>
-      (tag.style.visibility =
-        tag.style.visibility === "visible" ? "hidden" : "visible")
-  );
+  const stage = document.querySelector(".stage");
+  const sideMenu = document.querySelector(".motion-side-menu");
+  sideMenu.style.transform = "rotateY(-15deg) translateY(0px)";
   const userInterface = document.querySelector(".ui");
-  userInterface.style.visibility =
-    userInterface.style.visibility === "visible" ? "hidden" : "visible";
+
+  if (sideMenu.style.display === "block") {
+    console.log(1);
+    sideMenu.style.display = "none";
+    sideMenu.style.zIndex = "-100";
+    userInterface.style.display = "flex";
+    userInterface.style.zIndex = "200";
+  } else {
+    console.log(2);
+    sideMenu.style.display = "none";
+    sideMenu.style.zIndex = "-100";
+    userInterface.style.zIndex = "2";
+    location.reload();
+  }
   const mediaQuery = window.matchMedia("(max-width: 690px)");
   mediaQuery.addEventListener("change", handleMediaQuery);
 }
@@ -100,20 +109,23 @@ function mobilePannelListener() {
 }
 
 function handleMediaQuery(event) {
-  const tags = document.querySelectorAll(".motion-side-menu > a");
+  const stage = document.querySelector(".stage");
+  const tag = document.querySelector(".motion-side-menu");
   const userInterface = document.querySelector(".ui");
   if (!event.matches) {
+    console.log(3);
     // The media query doesn't match (viewport width is greater than 690px)
-
-    tags.forEach((tag) => (tag.style.visibility = "visible"));
-    document.querySelector(".ui").style.visibility = "visible";
+    tag.style.display = "block";
+    userInterface.style.display === "flex";
     removeEventListener("change", handleMediaQuery);
   } else {
     if (
-      userInterface.style.visibility === "visible" &&
-      tags[0].style.visibility === "visible"
+      userInterface.style.display === "flex" &&
+      tag.style.display === "block"
     ) {
-      tags.forEach((tag) => (tag.style.visibility = "hidden"));
+      console.log(4);
+      tag.style.display = "none";
+      stage.style.zIndex = "-100";
     }
   }
 }
