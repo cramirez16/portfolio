@@ -2,6 +2,7 @@
 
 function verticalMotionWithSpin3D(tagSelector) {
   const movingText = document.querySelector(tagSelector);
+  movingText.style.display = "block";
 
   function readTags(tag) {
     return Array.from(document.querySelectorAll(`${tag}>a`)).map((element) => {
@@ -87,7 +88,7 @@ function verticalScroll(tagSelector) {
   // sideMenu.addEventListener("transitionend", resetTransition);
 }
 
-function mobilePannel() {
+function mobilePanel() {
   const sideMenu = document.querySelector(".motion-side-menu");
   sideMenu.style.transform = "rotateY(-45deg) translateY(0px)";
   const userInterface = document.querySelector(".ui");
@@ -103,22 +104,22 @@ function mobilePannel() {
     userInterface.style.zIndex = "2";
     location.reload();
   }
-  const mediaQuery = window.matchMedia("(max-width: 900px)");
+  const mediaQuery = window.matchMedia("(max-width: 735px)");
   mediaQuery.addEventListener("change", handleMediaQuery);
 }
 
-function mobilePannelListener() {
+function mobilePanelListener() {
   const button = document.querySelector("#hamburger");
   console.log("click");
-  button.addEventListener("click", mobilePannel);
+  button.addEventListener("click", mobilePanel);
 }
 
 function handleMediaQuery(event) {
   const stage = document.querySelector(".stage");
   const tag = document.querySelector(".motion-side-menu");
   const userInterface = document.querySelector(".ui");
-  if (!event.matches && document.documentElement.clientHeight > 550) {
-    // The media query doesn't match (viewport width is greater than 690px)
+  if (!event.matches && document.documentElement.clientHeight > 735) {
+    // The media query doesn't match (viewport width is greater than 735px)
     tag.style.display = "block";
     userInterface.style.display === "flex";
     removeEventListener("change", handleMediaQuery);
@@ -135,7 +136,7 @@ function handleMediaQuery(event) {
 function main() {
   verticalMotionWithSpin3D(".motion-side-menu");
   verticalScroll(".motion-side-menu");
-  mobilePannelListener();
+  mobilePanelListener();
 }
 
 main();
