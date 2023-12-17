@@ -73,7 +73,6 @@ function verticalScroll(tagSelector) {
     } else if (translateYValue < -200) {
       translateYValue = -200;
     }
-    // window.scrollTo(0, currentScroll);
 
     // apply transition to smooth the scroll movement.
     sideMenu.style.transition = "transform 1.2s ease-in-out";
@@ -83,56 +82,55 @@ function verticalScroll(tagSelector) {
 
   // Listen for the scroll event --> passive false to allow use event.preventDefault();
   window.addEventListener("wheel", updateTranslateY, { passive: false });
-
-  // // Listen for the transition end event to reset transition property
-  // sideMenu.addEventListener("transitionend", resetTransition);
 }
 
 function mobilePanel() {
   const sideMenu = document.querySelector(".motion-side-menu");
   sideMenu.style.transform = "rotateY(-45deg) translateY(0px)";
   const userInterface = document.querySelector(".ui");
-
   if (sideMenu.style.display === "block") {
-    sideMenu.style.display = "none";
-    sideMenu.style.zIndex = "-100";
     userInterface.style.display = "flex";
     userInterface.style.zIndex = "200";
   } else {
-    sideMenu.style.display = "none";
-    sideMenu.style.zIndex = "-100";
     userInterface.style.zIndex = "2";
     location.reload();
   }
-  const mediaQuery = window.matchMedia("(max-width: 735px)");
-  mediaQuery.addEventListener("change", handleMediaQuery);
+  sideMenu.style.display = "none";
+  sideMenu.style.zIndex = "-100";
+  const mediaQueryPortrait = window.matchMedia("(max-width: 735px)");
+  mediaQueryPortrait.addEventListener("change", handleMediaQueryPortrait);
 }
 
 function mobilePanelListener() {
   const button = document.querySelector("#hamburger");
-  console.log("click");
   button.addEventListener("click", mobilePanel);
 }
 
-function handleMediaQuery(event) {
+function handleMediaQuery(event, maxWidth, callBack) {
   const stage = document.querySelector(".stage");
   const tag = document.querySelector(".motion-side-menu");
   const userInterface = document.querySelector(".ui");
-  if (!event.matches && document.documentElement.clientHeight > 735) {
-    // The media query doesn't match (viewport width is greater than 735px)
+  const isMaxWidthReched =
+    !event.matches && document.documentElement.clientWidth > maxWidth;
+
+  if (isMaxWidthReched) {
+    // The media query doesn't match (viewport width is greater than maxWidth)
     tag.style.display = "block";
     userInterface.style.display === "flex";
-    removeEventListener("change", handleMediaQuery);
-  } else {
-    if (
-      userInterface.style.display === "flex" &&
-      tag.style.display === "block"
-    ) {
-      tag.style.display = "none";
-      stage.style.zIndex = "-100";
-    }
+    window.removeEventListener("change", callBack);
+  } else if (
+    userInterface.style.display === "flex" &&
+    tag.style.display === "block"
+  ) {
+    tag.style.display = "none";
+    stage.style.zIndex = "-100";
   }
 }
+
+function handleMediaQueryPortrait(event) {
+  handleMediaQuery(event, 734, handleMediaQueryPortrait);
+}
+
 function main() {
   verticalMotionWithSpin3D(".motion-side-menu");
   verticalScroll(".motion-side-menu");
